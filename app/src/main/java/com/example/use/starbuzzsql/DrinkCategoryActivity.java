@@ -25,9 +25,9 @@ public class DrinkCategoryActivity extends ListActivity {
         try {
             SQLiteOpenHelper starbuzzDatabaseHelper = new StarbuzzDatabaseHelper(this);
             db = starbuzzDatabaseHelper.getReadableDatabase();
-            cursor = db.query("DRINK", new String[]{"_id", "NAME"}, null, null, null, null, null);
+            cursor = db.query("DRINK", new String[]{"_id", "NAME_TEXT"}, null, null, null, null, null);
             CursorAdapter listAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
-                    cursor, new String[]{"NAME"}, new int[]{android.R.id.text1}, 0);
+                    cursor, new String[]{"NAME_TEXT"}, new int[]{android.R.id.text1}, 0);
             listDrinks.setAdapter(listAdapter);
         } catch(SQLiteException e) {
             Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);

@@ -29,8 +29,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
     public static void insertDrink(SQLiteDatabase db, String name, String description, int resorceId){
         ContentValues drinkValues = new ContentValues();
-        drinkValues.put("NAME", name);
-        drinkValues.put("DESCRIPTION", description);
+        drinkValues.put("NAME_TEXT", name);
+        drinkValues.put("DESCRIPTION_TEXT", description);
         drinkValues.put("IMAGE_RESOURCE_ID", resorceId);
         db.insert("DRINK", null, drinkValues);
     }
@@ -38,7 +38,7 @@ import android.database.sqlite.SQLiteOpenHelper;
     private void updateMyDatabase(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion){
         if (oldVersion < 1){
             sqLiteDatabase.execSQL("CREATE TABLE DRINK ("
-                    + "__id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "NAME_TEXT, "
                     + "DESCRIPTION_TEXT, "
                     + "IMAGE_RESOURCE_ID INTEGER); ");
