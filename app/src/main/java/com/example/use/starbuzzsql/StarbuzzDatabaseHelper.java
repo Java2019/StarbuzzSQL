@@ -17,7 +17,7 @@ import java.nio.channels.FileChannel;
  class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "starbuzzsql";
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
 
     public StarbuzzDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -52,6 +52,9 @@ import java.nio.channels.FileChannel;
             insertDrink(sqLiteDatabase, "Filter", "Our best drip coffee", R.drawable.filter);
         };
         if (oldVersion<2){
+            sqLiteDatabase.execSQL("ALTER TABLE DRINK1 ADD COLUMN FAVORITE NUMERIC;");
+        }
+        if (oldVersion<5){
             sqLiteDatabase.execSQL("ALTER TABLE DRINK1 ADD COLUMN FAVORITE NUMERIC;");
         }
     }

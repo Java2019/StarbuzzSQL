@@ -48,7 +48,7 @@ public class DrinkActivity extends Activity {
             cursor.close();
             db.close();
         }catch(SQLiteException e) {
-            Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, "Database unavailable1", Toast.LENGTH_SHORT);
             toast.show();
         }
     }
@@ -62,11 +62,11 @@ public class DrinkActivity extends Activity {
                 new StarbuzzDatabaseHelper(DrinkActivity.this);
         try {
             SQLiteDatabase db = starbuzzDatabaseHelper.getWritableDatabase();
-            db.update("DRINK", drinkValues,
+            db.update("DRINK1", drinkValues,
                     "_id = ?", new String[] {Integer.toString(drinkNo)});
             db.close();
             } catch(SQLiteException e) {
-            Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, "Database unavailable2", Toast.LENGTH_SHORT);
             toast.show();
         }
     }
