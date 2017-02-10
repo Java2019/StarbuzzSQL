@@ -2,10 +2,12 @@ package com.example.use.starbuzzsql;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -54,8 +56,8 @@ public class DrinkActivity extends Activity {
     }
 
     public void onFavoriteClicked(View view){
-        int drinkNo = (Integer)getIntent().getExtras().get("drinkNo");
-        CheckBox favorite = (CheckBox)findViewById(R.id.favorite);
+        new UpdateDrinkTask().execute(getIntent());
+        /*CheckBox favorite = (CheckBox)findViewById(R.id.favorite);
         ContentValues drinkValues = new ContentValues();
         drinkValues.put("FAVORITE", favorite.isChecked());
         SQLiteOpenHelper starbuzzDatabaseHelper =
@@ -68,6 +70,42 @@ public class DrinkActivity extends Activity {
             } catch(SQLiteException e) {
             Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
             toast.show();
+        }*/
+    }
+
+    private class UpdateDrinkTask extends AsyncTask<Intent, Void, Boolean> {
+        ContentValues drinkValues;
+
+        @Override
+        protected Boolean doInBackground(Intent... drinks) {
+            Integer drinkNo = (Integer) getIntent().getExtras().get(EXTRA_DRINKNO);
+            //int drinkNo = drinks[0];
+            SQLiteOpenHelper starbuzzDatabaseHelper =
+                    new StarbuzzDatabaseHelper(DrinkActivity.this);
+            try {
+                SQLiteDatabase db = starbuzzDatabaseHelper.getWritableDatabase();
+                db.update("DRINK1", drinkValues,
+                        "_id = ?", new String[]{Integer.toString(drinkNo)});
+                db.close();
+                return true;
+            } catch (SQLiteException e) {
+                return false;
+            }
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            CheckBox favorite = (CheckBox) findViewById(R.id.favorite);
+            drinkValues = new ContentValues();
+            drinkValues.put("FAVORITE", favorite.isChecked());
+        }
+
+        protected void onPostExecute(Boolean success) {
+            if (!success) {
+                Toast toast = Toast.makeText(DrinkActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         }
     }
 }
